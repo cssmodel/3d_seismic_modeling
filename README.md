@@ -1,0 +1,2 @@
+# 3d_seismic_modeling
+3d_frequency_wavenumber_domain(omega_kx_ky_kz)_modeling Pipeline
