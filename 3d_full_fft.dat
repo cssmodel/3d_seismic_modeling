@@ -1,0 +1,20 @@
+256,256,64      
+12,12,8
+0.04,0.04,0.04
+salt_256.256.064.bin
+vp_coeff.asc
+sponge.bin
+damp_coeff.asc
+fxyz.bin
+fxyz_coeff.asc
+        open(11,file="3d_full_fft.dat")
+        read(11,*) nxe,nye,nze
+        read(11,*) nkx,nky,nkz
+        read(11,*) dx,dy,dz
+        read(10,*) file1
+        read(10,*) file2
+        read(10,*) file3
+        read(10,*) file4
+        read(10,*) file5
+        read(10,*) file6
+        close(11) 
