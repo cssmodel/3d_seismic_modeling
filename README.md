@@ -250,6 +250,15 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 OTHER DEALINGS IN THE SOFTWARE.
 
+
+The released FFT routine treats only power-of-two lengths $2^{n}$.
+
+The original implementation used the IMSL FFT library, which we cannot
+
+redistribute. Users may replace this FFT with another library for arbitrary
+
+lengths, and they should update the grid and the convolution matrix with care.
+
 Contact 
 
 Gee Won Shin 
