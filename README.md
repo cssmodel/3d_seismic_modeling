@@ -1,9 +1,15 @@
-#3D Seismic Modeling Package 
-Documentation, Manual, and Licensing Guide 
-The 3D Seismic Modeling Package is a high-performance 3D frequency-wavenumber 
+#3D Seismic Modeling Package
+
+Documentation, Manual, and Licensing Guide
+
+The 3D Seismic Modeling Package is a high-performance 3D frequency-wavenumber
+
 domain (ω-kx-ky-kz) seismic wave propagation modeling pipeline developed in Fortran. 
+
 It utilizes the Intel Math Kernel Library (MKL) for fast 3D Fast Fourier Transforms (FFT) and 
+
 handles model generation, 3D forward wavefield calculation, and synthetic seismogram/snapshot extraction.
+
 MPI-parallelized Fortran simulation package for 3D frequency-domain wavefield modeling,
 
 utilizing Fast Fourier Transforms (FFT) and Intel MKL BLAS/LAPACK routines for matrix
