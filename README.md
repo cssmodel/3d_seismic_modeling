@@ -58,40 +58,25 @@ Description / Function
 
 Step
 
-1 
-Step
-
-2
+1
 
 3d_make_model.f90
 
 3d_full_fft.f90
 
-Generates the 3D velocity grid model (e.g., binary
+Generates the 3D velocity grid model (e.g., binary format salt model).
 
-format salt model).
+Performs full 3D Fast Fourier Transform on the spatial velocity/wavefield model.
 
-Performs full 3D Fast Fourier Transform on the
+Step 3d_mkl_omega_kx_ky_kz.f90 Core solver computing wave propagation in the 3D Step Source File
 
-spatial velocity/wavefield model.
-
-Step 3d_mkl_omega_kx_ky_kz.f90 Core solver computing wave propagation in the 3D
-
-Step Source File
-
-3
+2
 
 Description / Function
 
 frequency-wavenumber domain using Intel MKL.
 
-Step
-
-4
-
-Step
-
-5
+3
 
 3d_inverse_full_fft.f90
 
@@ -119,15 +104,13 @@ sponge.bin: Spatial sponge boundary coefficient matrix. –
 
 fxyz.bin: Spatial source term distribution matrix.
 
-4. Spatial-to-Spectral Transformation (3d_full_fft.f90)
-5.  
+3. Spatial-to-Spectral Transformation (3d_full_fft.f90)
+4.  
 • Input: sponge.bin, fxyz.bin, and the spatial velocity model.
  
 • Operations: Converts the spatial velocity model, sponge model, and sources into 
 
-spatial frequencies, reordering and transforming the arrays into spectral
-
-components.
+spatial frequencies, reordering and transforming the arrays into spectral components.
 
 • Outputs: –
 
@@ -137,47 +120,33 @@ damp_coeff.asc: Wavenumber-domain damping boundary coefficient file.
 
 fxyz_coeff.asc: Wavenumber-domain source coefficient file. 
 
-7. Matrix Assembly and Frequency-Domain Solver (3d_mkl_omega_kx_ky_kz.f90)
-8. 
+5. Matrix Assembly and Frequency-Domain Solver (3d_mkl_omega_kx_ky_kz.f90)
+6. 
 • Input: vp_coeff.asc, damp_coeff.asc, and fxyz_coeff.asc.
 
-• Operations: Performs convolutions to construct the global impedance matrix and 
+• Operations: Performs convolutions to construct the global impedance matrix and solves the wave equation across distributed frequencies using MKL and MPI routines. 
 
-solves the wave equation across distributed frequencies using MKL and MPI 
-
-routines. 
-
+7.
 Core Parameter Specifications 
 
-• Time Window (tmax): Default is set to 10 s for standard recording length, but fully 
-modifiable. 
+• Time Window (tmax): Default is set to 10 s for standard recording length, but fully modifiable. 
 
 • Frequency Interval (df): Determined directly by the time window via df = 1/tmax. 
 
 • Maximum Frequency and Velocity: Bounded by a reference minimum velocity of 1.5 km/s (currently hardcoded, but adjustable). 
 
-• Discretization: Standardized to 2 grid points per wavelength, with the flexibility to 
+• Discretization: Standardized to 2 grid points per wavelength, with the flexibility to scale from 2 to 4 points per wavelength depending on dispersion requirements.
 
-scale from 2 to 4 points per wavelength depending on dispersion requirements.
+• Grid Spacing Formulation: Computed as dx = (2 * nkx + 1) * dkx, dynamically evaluating the dominant spatial dimension between nkx and nkz to govern grid sizing. 
 
-• Grid Spacing Formulation: Computed as dx = (2 * nkx + 1) * dkx, dynamically 
+8. Inverse Fourier Transformation (3d_inverse_full_fft.f90)
+9. 
+• Operations: Performs the 3D inverse Fast Fourier Transform to return data to the spatial domain. 
 
-evaluating the dominant spatial dimension between nkx and nkz to govern grid sizing. 
-
-10. Inverse Fourier Transformation (3d_inverse_full_fft.f90)
+10. Time-Domain Conversion and Snapshot Generation (snap_syn_freq_time.f90)
 11. 
-• Operations: Performs the 3D inverse Fast Fourier Transform to return data to the
-
-spatial domain. 
-
-13. Time-Domain Conversion and Snapshot Generation (snap_syn_freq_time.f90)
-14. 
-• Operations: Converts frequency-domain results into time-domain synthetic
-
-seismograms and snapshots. 
-
+• Operations: Converts frequency-domain results into time-domain synthetic seismograms and snapshots. 
 Input and Output Files Summary 
-
 Input Data Files 
 
 • salt_256.256.064.bin: Example 3D salt velocity model (256 x 256 x 64). 
@@ -199,9 +168,7 @@ Output Directories and Files
 
 • fxyz.bin: Spatial source term distribution matrix. 
 
-• true_wavefield/: Contains computed frequency-domain wavefield outputs
-
-formatted as true... 
+• true_wavefield/: Contains computed frequency-domain wavefield outputs formatted as true... 
 
 • snap3d/: Directory for complex 3D wavefield snapshots. 
 
@@ -211,13 +178,9 @@ Compilation and Execution
 
 Prerequisites 
 
-• MPI Fortran Compiler (mpif90, e.g., OpenMPI or MPICH with GNU Fortran or Intel
+• MPI Fortran Compiler (mpif90, e.g., OpenMPI or MPICH with GNU Fortran or Intel Fortran), or Intel Fortran Compiler (ifx / ifort) 
 
-Fortran), or Intel Fortran Compiler (ifx / ifort) 
-
-• Intel Math Kernel Library (MKL) or compatible BLAS/LAPACK library providing 
-
-cgetrf and cgetrs 
+• Intel Math Kernel Library (MKL) or compatible BLAS/LAPACK library providing cgetrf and cgetrs 
 
 MPI compile commands 
 
@@ -257,8 +220,8 @@ ifx -O3 snap_syn_freq_time.f90 -o snap_syn_freq_time.exe
 
 Software License (MIT License) 
 
-Copyright (c) 2026 3D Seismic Modeling Autho
-rs 
+Copyright (c) 2026 3D Seismic Modeling Authors
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
 
 software and associated documentation files (the Software), to deal in the Software without 
