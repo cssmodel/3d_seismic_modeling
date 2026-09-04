@@ -1,4 +1,4 @@
-#3D Seismic Modeling Package
+# 3D Seismic Modeling Package
 
 Documentation, Manual, and Licensing Guide
 
